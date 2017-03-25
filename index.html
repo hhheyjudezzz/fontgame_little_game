@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>font game</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		div{
+			width: 500px;
+			margin: 0 auto;
+			padding: 15px;
+			border:1px solid black;
+			text-align: center;
+		}
+		.header,.tip{
+			font:20px/30px "微软雅黑";
+		}
+		.time{
+			margin-right: 180px;
+		}
+		.colorsel{
+			font-size:200px;
+		}
+		.sel{
+			font: 80px/200px "微软雅黑";
+		}
+		
+	</style>
+</head>
+<body>
+	<div>
+		<p class="header"><span >剩余时间：<span class="time1">100</span>秒</span><span >完成：<span class="score">0</span></span></p>
+		<!-- content -->
+		<p class="colorsel" style="color:blue">绿</p>
+		
+		<p class="tip">根据上面的字的颜色从下面选择正确的字，选择正确自动开始。</p>
+		<!-- 选项 -->
+		<p class="sel">
+			<span class="font1" style="color:red">红</span><span class="font2" style="color:green">绿</span><span class="font3" style="color:yellow">黄</span><span class="font4" style="color:black">黑</span><span class="font5" style="color:blue">蓝</span>
+		</p>
+	</div>
+</body>
+<script type="text/javascript">
+	var fontsum = document.querySelectorAll(".sel span")
+	var colorsel = document.querySelector(".colorsel")
+	var time1 = document.querySelector(".time1")
+	var score = document.querySelector(".score")
+	var font1 = document.querySelector(".font1")
+	var font2 = document.querySelector(".font2")
+	var font3 = document.querySelector(".font3")
+	var font4 = document.querySelector(".font4")
+	var font5 = document.querySelector(".font5")
+	//声明变量
+	var a = 0 ;
+	// var n =1;
+	var m =1;
+	var time=100;
+	var colork =["red","black","yellow","green","blue"]
+	var fontk = ["黑","红","绿","黄","蓝"]
+	console.log(fontk);
+	//点击事件
+	for(var i = 0; i<fontsum.length;i++){
+	   //json 键值对
+		fontsum[i].index1 ={"黑":"black","红":"red","黄":"yellow","绿":"green","蓝":"blue"}
+		
+		// fontsum[2].index1["黑"]
+		
+		fontsum[i].onclick=function click(){
+			console.log(this.index1[this.innerText]);
+			console.log(Number(score.innerText));
+			a = Number(score.innerText);
+			b = Number(time1.innerText);
+			
+			
+			//判断答案
+			 if(time<0||(m==1 && this.index1[this.innerText]!=colorsel.style.color) ){
+					console.log(3);
+			}else if((m==1||m>1) && this.index1[this.innerText]==colorsel.style.color){
+				console.log(1);
+				score.innerText=String(++a);
+				m++;
+				console.log(m);
+				//随机字符和颜色
+				fontk=fontk.sort(function(a,b){
+					return Math.random()-0.5
+				})
+				colork=colork.sort(function(a,b){
+					return Math.random()-0.5
+				})
+					//改变字符和颜色
+				for(var i =0; i<fontk.length;i++){
+					fontsum[i].innerText=fontk[i]
+					fontsum[i].style.color=colork[i]
+					colorsel.style.color=colork[parseInt(Math.random()*5)]
+					colorsel.innerText=fontk[parseInt(Math.random()*5)]
+				}
+				//设置定时器
+			
+				var timer=setInterval(function(){
+					if(time<0){
+						clearInterval(timer);
+					}else{
+						time1.innerText=time.toFixed(2)+"";
+					}
+					time-=0.02;
+				},20)
+				
+			//如果错误且不是第一次点击
+			}else if(m!=1 && this.index1[this.innerText]!=colorsel.style.color){
+				score.innerText=String(--a);
+				//随机字符和颜色
+				fontk=fontk.sort(function(a,b){
+					return Math.random()-0.5
+				})
+				colork=colork.sort(function(a,b){
+					return Math.random()-0.5
+				})
+					//改变字符和颜色
+				for(var i =0; i<fontk.length;i++){
+					fontsum[i].innerText=fontk[i]
+					fontsum[i].style.color=colork[i]
+					colorsel.style.color=colork[parseInt(Math.random()*5)]
+					colorsel.innerText=fontk[parseInt(Math.random()*5)]
+				}
+			}
+		}
+	}
+	console.log(fontsum[2].index1["黑"]);
+
+</script>
+</html>
